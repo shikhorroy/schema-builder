@@ -8,6 +8,9 @@
     <spring:url value="/css/main.css" var="springCss"/>
     <link href="${springCss}" rel="stylesheet"/>
 
+    <spring:url value="/js/populate.js" var="springJs"/>
+    <script src="${springJs}"></script>
+
     <meta charset="UTF-8">
     <title>Schema Builder</title>
 </head>
@@ -50,8 +53,8 @@
         </div>
     </div>
     <div id="submit-button">
-        <input type="button" name="populate-schema" value="Populate Schema"/>
-        <input type="button" name="qeury" value="Query"/>
+        <input type="button" name="populate-schema" value="Populate Schema" onclick="populateSchema()"/>
+        <input type="button" name="qeury" value="Query" onclick="query()"/>
     </div>
 </div>
 </body>
