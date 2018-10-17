@@ -1,17 +1,19 @@
-function populateSchema() {
-    var sql = document.getElementById("sql-textarea").getElementsByTagName("textarea")[0].value;
+$(document).ready(function () {
+    $("input[name = 'populate-schema']").click(populateSchema);
+});
 
-    var sqlLangs = document.getElementById("sql-lang-options").getElementsByTagName("select")[0];
-    var selectedSqlLang = sqlLangs.options[sqlLangs.selectedIndex].value;
+var populateSchema = function () {
+    var sql = $('#sql-textarea textarea')[0].value;
+    var selectedSqlLang = $("#sql-lang-options option:selected")[0].value;
 
-    var schemaPath = document.getElementById("schema-path-input").getElementsByTagName("input")["schema-path"].value;
-    var model = document.getElementById("model-input").getElementsByTagName("input")["model"].value;
+    var schemaPath = $("input[name = 'schema-path']").val();
+    var model = $("input[name = 'model']").val();
 
     console.log(sql);
     console.log(selectedSqlLang);
     console.log(schemaPath);
     console.log(model);
-}
+};
 
 function query() {
     alert('quering...');
