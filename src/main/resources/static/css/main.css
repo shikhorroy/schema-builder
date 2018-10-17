@@ -2,11 +2,13 @@
     padding: 40px;
     /*background-color: blue;*/
 }
+
 #sql {
-    float:left;
-    display:inline-block;
+    float: left;
+    display: inline-block;
 }
+
 #sql-textarea {
-    float:left;
-    display:flex;
+    float: left;
+    display: flex;
 }

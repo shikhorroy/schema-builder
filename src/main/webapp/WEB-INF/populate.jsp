@@ -57,6 +57,8 @@
         <input type="button" name="populate-schema" value="Populate Schema"/>
         <input type="button" name="qeury" value="Query"/>
     </div>
+
+    <div id="output"></div>
 </div>
 </body>
 </html>
