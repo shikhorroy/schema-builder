@@ -3,14 +3,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <%-- START :: imporing JS--%>
     <script src="https://code.jquery.com/jquery-2.2.4.js" type="text/javascript"></script>
     <spring:url value="/js/populate.js" var="springJs"/>
     <script src="${springJs}"></script>
+    <%-- END :: imporing JS--%>
 
+    <%-- START :: imporing CSS--%>
     <%--<c:url value="/css/main.css" var="jstlCss" />--%>
     <%--<link href="${jstlCss}" rel="stylesheet" />--%>
     <spring:url value="/css/main.css" var="springCss"/>
     <link href="${springCss}" rel="stylesheet"/>
+    <%-- END :: imporing CSS--%>
 
     <meta charset="UTF-8">
     <title>Schema Builder</title>
