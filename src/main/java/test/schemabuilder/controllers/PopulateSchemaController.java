@@ -13,14 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/PopulateSchema")
 public class PopulateSchemaController {
 
+    @Autowired
+    public PopulateSchemaController(PopulateSchemaService populateSchemaService) {
+        this.populateSchemaService = populateSchemaService;
+    }
+
     @RequestMapping(value = "/populate/", method = RequestMethod.GET)
     public String populate() {
         System.out.println("populate method...");
         return "populate";
     }
 
-    @Autowired
-    PopulateSchemaService populateSchemaService;
+    private final PopulateSchemaService populateSchemaService;
 
     @ResponseBody
     @RequestMapping(value = "/populate/", method = RequestMethod.POST)
