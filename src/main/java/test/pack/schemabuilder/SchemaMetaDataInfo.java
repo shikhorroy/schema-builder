@@ -9,7 +9,7 @@ public class SchemaMetaDataInfo {
         return field;
     }
 
-    void setField(String field) {
+    public void setField(String field) {
         this.field = field;
     }
 
@@ -17,7 +17,7 @@ public class SchemaMetaDataInfo {
         return dataType;
     }
 
-    void setDataType(String dataType) {
+    public void setDataType(String dataType) {
         this.dataType = dataType;
     }
 
@@ -25,7 +25,7 @@ public class SchemaMetaDataInfo {
         return fieldCount;
     }
 
-    void setFieldCount(Integer fieldCount) {
+    public void setFieldCount(Integer fieldCount) {
         SchemaMetaDataInfo.fieldCount = fieldCount;
     }
 }

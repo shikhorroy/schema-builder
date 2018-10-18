@@ -47,7 +47,7 @@ public class Data {
                 "\n\t\tsql='" + sql + '\'' +
                 ",\n\t\tselectedSqlLanguage='" + selectedSqlLanguage + '\'' +
                 ",\n\t\tschemaPath='" + schemaPath + '\'' +
-                ",\n\t\tmodels='" + model + '\'' +
+                ",\n\t\tmodel='" + model + '\'' +
                 "\n\t}";
     }
 }

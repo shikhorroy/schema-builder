@@ -25,7 +25,7 @@ var prepareData = function () {
     var sql = $('#sql-textarea textarea')[0].value;
     var selectedSqlLang = $("#sql-lang-options option:selected")[0].value;
     var schemaPath = $("input[name = 'schema-path']").val();
-    var model = $("input[name = 'models']").val();
+    var model = $("input[name = 'model']").val();
 
     return {
         "sql": sql,
