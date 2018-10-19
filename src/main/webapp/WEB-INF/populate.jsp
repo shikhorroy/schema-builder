@@ -46,7 +46,7 @@
             Schema Path :
         </div>
         <div id="schema-path-input">
-            <input type="text" name="schema-path"/>
+            <input type="text" name="schema-path" placeholder="e.g. path/Schema.yaml"/>
         </div>
     </div>
     <div id="model">

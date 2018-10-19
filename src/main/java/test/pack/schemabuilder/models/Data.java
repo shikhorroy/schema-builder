@@ -1,4 +1,4 @@
-package test.schemabuilder.models;
+package test.pack.schemabuilder.models;
 
 public class Data {
     private String sql;

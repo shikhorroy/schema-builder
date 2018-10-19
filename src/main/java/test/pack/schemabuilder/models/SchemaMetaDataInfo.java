@@ -1,4 +1,4 @@
-package test.pack.schemabuilder;
+package test.pack.schemabuilder.models;
 
 public class SchemaMetaDataInfo {
     private String field;

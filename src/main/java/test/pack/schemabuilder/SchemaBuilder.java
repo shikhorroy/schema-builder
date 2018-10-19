@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import test.pack.schemabuilder.constants.Constants;
+import test.pack.schemabuilder.models.Data;
+import test.pack.schemabuilder.models.SchemaMetaDataInfo;
 import test.pack.schemabuilder.schema.Schema;
 import test.pack.schemabuilder.schema.columns.Columns;
 import test.pack.schemabuilder.schema.fields.Field;
@@ -19,8 +21,10 @@ import test.pack.schemabuilder.schema.order.Order;
 import test.pack.schemabuilder.schema.orderhints.OrderHints;
 import test.pack.schemabuilder.schema.search.Search;
 import test.pack.schemabuilder.schema.validators.Validators;
-import test.schemabuilder.models.Data;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -101,10 +105,51 @@ class SchemaBuilder {
         String schema = this.build(schemaMetaDataInfos, data);
         System.out.println("*** schema ***");
         System.out.println(schema);
+
+        this.writeSchema(schema, this.data.getSchemaPath());
         return "";
     }
 
+    private void writeSchema(String schema, String schemaPath) {
+        File file = new File(String.valueOf(schemaPath));
+        try {
+            file.getParentFile().mkdir();
+            boolean r = file.createNewFile();
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(schema);
+            bw.close();
+            System.out.println("*** " + schemaPath + " created ***");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String build(List<SchemaMetaDataInfo> schemaMetaDataInfos, Data data) {
+        Schema schema = this.prepareSchema(schemaMetaDataInfos);
+
+        DumperOptions dumperOptions = new DumperOptions();
+        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        dumperOptions.setPrettyFlow(true);
+
+        ObjectMapper oMapper = new ObjectMapper();
+        Map<String, Object> map = oMapper.convertValue(schema, Map.class);
+
+        this.overRideFieldsMap(map);
+        this.overRideOptionsMap(map);
+
+        for (Map.Entry e : map.entrySet()) {
+            if (e.getValue() == null) e.setValue(Constants.CURLY_BRACKET);
+        }
+
+        Yaml yaml = new Yaml(dumperOptions);
+        String output = yaml.dump(map);
+        output = output.replace(Constants.CURLY_BRACKET, Constants.CURLY_BRACKET_REPLACER);
+
+        return output;
+    }
+
+    private Schema prepareSchema(List<SchemaMetaDataInfo> schemaMetaDataInfos) {
         Fields fields = this.prepareFields(schemaMetaDataInfos);
         Columns columns = this.prepareColumns();
         JoinHints joinHints = this.prepareJoinHints();
@@ -125,13 +170,20 @@ class SchemaBuilder {
                 .setValidators(validators)
                 .setOptions(options);
 
-        DumperOptions dumperOptions = new DumperOptions();
-        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        dumperOptions.setPrettyFlow(true);
+        return schema;
+    }
 
-        ObjectMapper oMapper = new ObjectMapper();
-        Map<String, Object> map = oMapper.convertValue(schema, Map.class);
+    private void overRideOptionsMap(Map<String, Object> map) {
+        Map<String, Object> optionsMap = (Map<String, Object>) map.get(Constants.OPTIONS);
+        Map<String, Object> queryMap = (Map<String, Object>) optionsMap.get(Constants.QUERY);
+        String server = (String) queryMap.get(Constants.SERVER);
+        String sql = (String) queryMap.get(Constants.QUERY);
+        Map<String, String> queryMapObj = new HashMap<>();
+        queryMap.clear();
+        queryMap.put(server, sql);
+    }
 
+    private void overRideFieldsMap(Map<String, Object> map) {
         Map<String, Object> fieldsMap = (Map<String, Object>) map.get(Constants.FIELDS);
         List<Map<String, Object>> fieldListMap = (List<Map<String, Object>>) fieldsMap.get(Constants.FIELD_LIST);
         Map<String, Object> schemaFields = new HashMap<>();
@@ -140,26 +192,6 @@ class SchemaBuilder {
         }
         fieldsMap.clear();
         map.put(Constants.FIELDS, schemaFields);
-
-        Map<String, Object> optionsMap = (Map<String, Object>) map.get(Constants.OPTIONS);
-        Map<String, Object> queryMap = (Map<String, Object>) optionsMap.get(Constants.QUERY);
-        String server = (String) queryMap.get(Constants.SERVER);
-        String sql = (String) queryMap.get(Constants.QUERY);
-        Map<String, String> queryMapObj = new HashMap<>();
-        queryMap.clear();
-        queryMap.put(server, sql);
-
-        for (Map.Entry e : map.entrySet()) {
-            if (e.getValue() == null) e.setValue(Constants.CURLY_BRACKET);
-        }
-
-//        System.out.println(map);
-
-        Yaml yaml = new Yaml(dumperOptions);
-        String output = yaml.dump(map);
-        output = output.replace(Constants.CURLY_BRACKET, Constants.CURLY_BRACKET_REPLACER);
-
-        return output;
     }
 
     private Options prepareOptions(Data data) {
