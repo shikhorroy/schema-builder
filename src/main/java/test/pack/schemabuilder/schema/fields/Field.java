@@ -2,6 +2,7 @@ package test.pack.schemabuilder.schema.fields;
 
 public class Field {
     private String name;
+    private String label;
     private boolean db;
     private boolean display;
     private Meta meta;
@@ -36,5 +37,13 @@ public class Field {
 
     public void setMeta(Meta meta) {
         this.meta = meta;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

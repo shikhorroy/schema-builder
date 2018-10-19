@@ -1,16 +1,17 @@
 package test.pack.schemabuilder.models;
 
 public class SchemaMetaDataInfo {
-    private String field;
+    private String fieldName;
+    private String fieldLabel;
     private String dataType;
     private static Integer fieldCount;
 
-    public String getField() {
-        return field;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public void setField(String field) {
-        this.field = field;
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 
     public String getDataType() {
@@ -27,5 +28,13 @@ public class SchemaMetaDataInfo {
 
     public void setFieldCount(Integer fieldCount) {
         SchemaMetaDataInfo.fieldCount = fieldCount;
+    }
+
+    public String getFieldLabel() {
+        return fieldLabel;
+    }
+
+    public void setFieldLabel(String fieldLabel) {
+        this.fieldLabel = fieldLabel;
     }
 }
