@@ -3,6 +3,7 @@ package test.pack.schemabuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -28,10 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 class SchemaBuilder {
@@ -183,12 +181,33 @@ class SchemaBuilder {
         queryMap.put(server, sql);
     }
 
+    @Value("${string.totitlecase:true}")
+    boolean toTitleCase;
+
     private void overRideFieldsMap(Map<String, Object> map) {
         Map<String, Object> fieldsMap = (Map<String, Object>) map.get(Constants.FIELDS);
-        List<Map<String, Object>> fieldListMap = (List<Map<String, Object>>) fieldsMap.get(Constants.FIELD_LIST);
-        Map<String, Object> schemaFields = new HashMap<>();
-        for (Map<String, Object> fieldMap : fieldListMap) {
-            schemaFields.put(data.getModel() + "." + fieldMap.get("name"), fieldMap);
+        List<Map<String, Object>> fieldMapList = (List<Map<String, Object>>) fieldsMap.get(Constants.FIELD_LIST);
+        Map<String, Object> schemaFields = new LinkedHashMap<>();
+        Map<String, Integer> schemaFieldsSeq = new HashMap<>();
+        for (Map<String, Object> fieldMap : fieldMapList) {
+            String name = (String) fieldMap.get(Constants.NAME);
+            String label = (String) fieldMap.get(Constants.LABEL);
+
+            // ~ 'title case' label value based on properties value:
+            if (toTitleCase) label = StringUtils.toTitleCase(label);
+
+            fieldMap.remove(Constants.LABEL);
+            fieldMap.put(Constants.NAME, label);
+            String field = data.getModel() + "." + name;
+
+            //~ field name duplication check and automatic serialization:
+            if (schemaFields.containsKey(field)) {
+                int seq = schemaFieldsSeq.get(field) + 1;
+                schemaFieldsSeq.put(field, seq);
+                field += seq;
+            } else schemaFieldsSeq.put(field, 0);
+
+            schemaFields.put(field, fieldMap);
         }
         fieldsMap.clear();
         map.put(Constants.FIELDS, schemaFields);
@@ -241,7 +260,8 @@ class SchemaBuilder {
 
             field.setDb(true);
             field.setDisplay(true);
-            field.setName(info.getField());
+            field.setName(info.getFieldName());
+            field.setLabel(info.getFieldLabel());
 
             fieldList.add(field);
         }
@@ -265,9 +285,11 @@ class SchemaBuilder {
             System.out.println("*** columns info ***");
             for (int i = 0; i < columnCount; i++) {
                 String columnName = md.getColumnName(i + 1);
+                String columnLabel = md.getColumnLabel(i + 1);
                 String dataType = md.getColumnTypeName(i + 1);
 
-                schemaMetaDataInfo.setField(columnName);
+                schemaMetaDataInfo.setFieldName(columnName);
+                schemaMetaDataInfo.setFieldLabel(columnLabel);
                 schemaMetaDataInfo.setDataType(dataType);
 
                 schemaMetaDataInfos.add(schemaMetaDataInfo);
