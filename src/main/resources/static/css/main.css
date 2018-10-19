@@ -1,6 +1,7 @@
-#main {
-    padding: 40px;
-    /*background-color: blue;*/
+.center {
+    margin: auto;
+    margin-top: 70px;
+    width: 40%;
 }
 
 #sql {
@@ -11,4 +12,45 @@
 #sql-textarea {
     float: left;
     display: flex;
+}
+
+#schema-path {
+    margin-top: -47px;
+    margin-left: 240px;
+}
+
+#model {
+    margin-top: 5px;
+}
+
+#submit-button {
+    margin-top: 5px;
+}
+
+#model-input input {
+    width: 417px;
+}
+
+#sql-lang-options select {
+    width: 185px;
+}
+
+#submit-button input[name="populate-schema"] {
+    width: 200px;
+    height: 25px;
+    margin-left: 0px;
+}
+
+#submit-button input[value="Query"] {
+    width: 190px;
+    height: 25px;
+    margin-left: 27px;
+}
+
+input[name='schema-path'], input[name='model'] {
+    height: 25px;
+}
+
+select {
+    height: 30px;
 }

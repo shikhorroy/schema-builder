@@ -20,7 +20,7 @@
     <title>Schema Builder</title>
 </head>
 <body>
-<div id="main">
+<div id="main" class="center">
     <div id="sql">
         <div id="sql-label">SQL :</div>
         <div id="sql-textarea"><textarea rows="4" cols="50"></textarea></div>

@@ -1,8 +1,24 @@
 $(document).ready(function () {
+    onFocusCheck();
     $("input[name = 'populate-schema']").click(populateSchema);
 });
 
+function onFocusCheck() {
+    $('#sql-textarea textarea').focus(function () {
+        $(this).css("border-color", "");
+    });
+    $("input[name = 'schema-path']").focus(function () {
+        $(this).css("border-color", "");
+    });
+    $("input[name = 'model']").focus(function () {
+        $(this).css("border-color", "");
+    });
+}
+
 var populateSchema = function () {
+    var flag = checkRequired();
+    if (flag == false) return;
+
     var data = prepareData();
 
     $.ajax({
@@ -35,6 +51,23 @@ var prepareData = function () {
     };
 };
 
-function query() {
-    alert('quering...');
+function checkRequired() {
+    var sql = $('#sql-textarea textarea')[0].value;
+    var schemaPath = $("input[name = 'schema-path']").val();
+    var model = $("input[name = 'model']").val();
+
+    var flag = true;
+    if (sql.length == 0) {
+        flag = false;
+        $('#sql-textarea textarea').css('border-color', 'red');
+    }
+    if (schemaPath.length == 0) {
+        flag = false;
+        $("input[name = 'schema-path']").css('border-color', 'red');
+    }
+    if (model.length == 0) {
+        flag = false;
+        $("input[name = 'model']").css('border-color', 'red');
+    }
+    return flag;
 }
