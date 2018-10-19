@@ -202,6 +202,7 @@ class SchemaBuilder {
 
             //~ field name duplication check and automatic serialization:
             if (schemaFields.containsKey(field)) {
+                System.err.println("*** " + field + " found more than once!");
                 int seq = schemaFieldsSeq.get(field) + 1;
                 schemaFieldsSeq.put(field, seq);
                 field += seq;
