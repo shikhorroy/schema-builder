@@ -1,5 +1,16 @@
+<%@ page import="java.util.ResourceBundle" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%
+    //~ load the application properties:
+    ResourceBundle resourceBundle = ResourceBundle.getBundle("application");
+    String selectedQueryLanguage = null;
+    try {
+        selectedQueryLanguage = resourceBundle.getString("schema.selected-query-language");
+    } catch (Exception e) {
+        selectedQueryLanguage = "oracle";
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +18,8 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js" type="text/javascript"></script>
     <spring:url value="/js/populate.js" var="springJs"/>
     <script src="${springJs}"></script>
+    <spring:url value="/js/resources.js" var="resources"/>
+    <script src="${resources}"></script>
     <%-- END :: imporing JS--%>
 
     <%-- START :: imporing CSS--%>
@@ -21,6 +34,7 @@
 </head>
 <body>
 <div id="main" class="center">
+    <h2>Schema Builder</h2>
     <div id="sql">
         <div id="sql-label">SQL :</div>
         <div id="sql-textarea"><textarea rows="4" cols="50"></textarea></div>
@@ -31,13 +45,21 @@
     <br>
     <br>
     <div id="sql-lang">
-        <div id="sql-lang-label">SQL Language:</div>
+        <div id="sql-lang-label">Query Language:</div>
         <div id="sql-lang-options">
             <select>
-                <option value="oracle">Oracle</option>
-                <option value="mysql">MySQL</option>
-                <option value="mssql">MSSQL</option>
-                <option value="postgres">PostgreSQL</option>
+                <option value="oracle" <%= (selectedQueryLanguage.equals("oracle") ? "selected='selected'" : "") %>>
+                    Oracle
+                </option>
+                <option value="mysql" <%= (selectedQueryLanguage.equals("mysql") ? "selected='selected'" : "") %>>
+                    MySQL
+                </option>
+                <option value="mssql" <%= (selectedQueryLanguage.equals("mssql") ? "selected='selected'" : "") %>>
+                    MSSQL
+                </option>
+                <option value="postgres" <%= (selectedQueryLanguage.equals("postgres") ? "selected='selected'" : "") %>>
+                    PostgreSQL
+                </option>
             </select>
         </div>
     </div>
