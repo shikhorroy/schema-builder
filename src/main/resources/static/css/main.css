@@ -54,3 +54,11 @@ input[name='schema-path'], input[name='model'] {
 select {
     height: 30px;
 }
+
+textarea {
+    resize: none;
+}
+
+h2 {
+    margin-left: 120px;
+}
