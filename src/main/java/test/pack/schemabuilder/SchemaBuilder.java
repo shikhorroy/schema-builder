@@ -123,10 +123,14 @@ class SchemaBuilder {
         }
     }
 
+    @Value("${schema.indentation:2}")
+    Integer schemaIndentation;
+
     private String build(List<SchemaMetaDataInfo> schemaMetaDataInfos, Data data) {
         Schema schema = this.prepareSchema(schemaMetaDataInfos);
 
         DumperOptions dumperOptions = new DumperOptions();
+        dumperOptions.setIndent(schemaIndentation);
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         dumperOptions.setPrettyFlow(true);
 
@@ -181,7 +185,7 @@ class SchemaBuilder {
         queryMap.put(server, sql);
     }
 
-    @Value("${string.totitlecase:true}")
+    @Value("${string.enable-title-case:true}")
     boolean toTitleCase;
 
     private void overRideFieldsMap(Map<String, Object> map) {
