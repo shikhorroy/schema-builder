@@ -21,10 +21,11 @@ var query = function () {
     if (flag == false) return;
 
     var data = prepareData();
+    var serviceUrl = "/QueryExecutor/query/";
 
     $.ajax({
         type: "POST",
-        url: hostPort + "/QueryExecutor/query/",
+        url: baseUrl() + serviceUrl,
         data: {
             "data": JSON.stringify(data)
         },
@@ -39,14 +40,14 @@ var query = function () {
 };
 
 var populateSchema = function () {
-    var flag = checkRequired();
-    if (flag == false) return;
+    if (checkRequired() == false) return;
 
     var data = prepareData();
+    var serviceUrl = "/PopulateSchema/populate/";
 
     $.ajax({
         type: "POST",
-        url: hostPort + "/PopulateSchema/populate/",
+        url: baseUrl() + serviceUrl,
         data: {
             "data": JSON.stringify(data)
         },
@@ -95,9 +96,13 @@ function checkRequired() {
     return flag;
 }
 
-var hostPort = function () {
-    var port = window.location.port;
+var baseUrl = function () {
+    var protocol = window.location.protocol;
     var host = window.location.hostname;
+    var port = window.location.port;
 
-    return "http://" + host + ":" + port;
+    var baseUrl = protocol + "//" + host + (port ? ':' + port : '');
+
+    console.log(baseUrl);
+    return baseUrl;
 };
