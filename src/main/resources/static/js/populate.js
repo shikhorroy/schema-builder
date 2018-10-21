@@ -24,7 +24,7 @@ var query = function () {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8001/QueryExecutor/query/",
+        url: hostPort + "/QueryExecutor/query/",
         data: {
             "data": JSON.stringify(data)
         },
@@ -46,7 +46,7 @@ var populateSchema = function () {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8001/PopulateSchema/populate/",
+        url: hostPort + "/PopulateSchema/populate/",
         data: {
             "data": JSON.stringify(data)
         },
@@ -94,3 +94,10 @@ function checkRequired() {
     }
     return flag;
 }
+
+var hostPort = function () {
+    var port = window.location.port;
+    var host = window.location.hostname;
+
+    return "http://" + host + ":" + port;
+};
