@@ -186,7 +186,7 @@ class SchemaBuilder {
     }
 
     @Value("${string.enable-title-case:true}")
-    boolean toTitleCase;
+    boolean titleCaseConversionEnable;
 
     private void overRideFieldsMap(Map<String, Object> map) {
         Map<String, Object> fieldsMap = (Map<String, Object>) map.get(Constants.FIELDS);
@@ -197,8 +197,10 @@ class SchemaBuilder {
             String name = (String) fieldMap.get(Constants.NAME);
             String label = (String) fieldMap.get(Constants.LABEL);
 
-            // ~ 'title case' label value based on properties value:
-            if (toTitleCase) label = StringUtils.toTitleCase(label);
+            name = StringUtils.toLowerCamelCase(name);
+
+            //~ convert label value into title case based on properties value:
+            if (titleCaseConversionEnable) label = StringUtils.toTitleCase(label);
 
             fieldMap.remove(Constants.LABEL);
             fieldMap.put(Constants.NAME, label);
