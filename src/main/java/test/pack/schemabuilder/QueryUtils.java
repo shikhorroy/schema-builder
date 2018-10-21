@@ -15,7 +15,7 @@ public class QueryUtils {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    ResultSet query(String query) {
+    public ResultSet query(String query) {
         ResultSet rs = null;
         try {
             Connection connection = jdbcTemplate.getDataSource().getConnection();

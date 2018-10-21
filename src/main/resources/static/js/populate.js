@@ -1,6 +1,7 @@
 $(document).ready(function () {
     onFocusCheck();
     $("input[name = 'populate-schema']").click(populateSchema);
+    $("input[name = 'qeury']").click(query);
 });
 
 function onFocusCheck() {
@@ -14,6 +15,28 @@ function onFocusCheck() {
         $(this).css("border-color", "");
     });
 }
+
+var query = function () {
+    var flag = checkRequired();
+    if (flag == false) return;
+
+    var data = prepareData();
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8001/QueryExecutor/query/",
+        data: {
+            "data": JSON.stringify(data)
+        },
+        cache: false,
+        success: function (data) {
+            alert(data);
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+};
 
 var populateSchema = function () {
     var flag = checkRequired();
