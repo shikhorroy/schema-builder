@@ -18,8 +18,6 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js" type="text/javascript"></script>
     <spring:url value="/js/populate.js" var="springJs"/>
     <script src="${springJs}"></script>
-    <spring:url value="/js/resources.js" var="resources"/>
-    <script src="${resources}"></script>
     <%-- END :: imporing JS--%>
 
     <%-- START :: imporing CSS--%>
