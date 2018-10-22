@@ -27,7 +27,7 @@ public class StringUtils {
         if (underScoreRemoverEnable) input = input.replace("_", " ");
         Arrays.stream(input.split("\\s+"))
                 .forEach(s -> sb.append(Character.toTitleCase(s.charAt(0)))
-                        .append(s.substring(1))
+                        .append(s.substring(1).toLowerCase())
                         .append(" "));
         return sb.toString().trim();
     }
@@ -44,7 +44,7 @@ public class StringUtils {
         if (underScoreRemoverEnable) input = input.replace("_", " ");
         Arrays.stream(input.split("\\s+"))
                 .forEach(s -> sb.append(Character.toUpperCase(s.charAt(0)))
-                        .append(s.substring(1)));
+                        .append(s.substring(1).toLowerCase()));
         String str = sb.toString();
         str = Character.toLowerCase(str.charAt(0)) + str.substring(1);
         return str;
@@ -62,7 +62,7 @@ public class StringUtils {
         if (underScoreRemoverEnable) input = input.replace("_", " ");
         Arrays.stream(input.split("\\s+"))
                 .forEach(s -> sb.append(Character.toUpperCase(s.charAt(0)))
-                        .append(s.substring(1)));
+                        .append(s.substring(1).toLowerCase()));
         return sb.toString().trim();
     }
 }
