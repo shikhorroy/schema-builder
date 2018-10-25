@@ -294,10 +294,12 @@ class SchemaBuilder {
                 String columnName = md.getColumnName(i + 1);
                 String columnLabel = md.getColumnLabel(i + 1);
                 String dataType = md.getColumnTypeName(i + 1);
+                String tableName = md.getTableName(i + 1);
 
                 schemaMetaDataInfo.setFieldName(columnName);
                 schemaMetaDataInfo.setFieldLabel(columnLabel);
                 schemaMetaDataInfo.setDataType(dataType);
+                schemaMetaDataInfo.setTableName(tableName);
 
                 schemaMetaDataInfos.add(schemaMetaDataInfo);
                 schemaMetaDataInfo = new SchemaMetaDataInfo();

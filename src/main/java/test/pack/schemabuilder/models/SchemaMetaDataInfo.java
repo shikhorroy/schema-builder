@@ -4,6 +4,7 @@ public class SchemaMetaDataInfo {
     private String fieldName;
     private String fieldLabel;
     private String dataType;
+    private String tableName;
     private static Integer fieldCount;
 
     public String getFieldName() {
@@ -36,5 +37,13 @@ public class SchemaMetaDataInfo {
 
     public void setFieldLabel(String fieldLabel) {
         this.fieldLabel = fieldLabel;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }
